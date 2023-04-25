@@ -124,5 +124,5 @@ Route::prefix('api')->group(function () {
 });
 
 Route::fallback(function () {
-    include base_path() . '\resources\views\index.html';
+    include base_path() . '/resources/views/index.html';
 });
