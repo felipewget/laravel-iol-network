@@ -381,6 +381,9 @@ class BlockRepository
                 $amount = $transaction['amount'];
 
                 if ($transaction['receiver'] == $accountAddress) $balance += $amount;
+
+                break;
+
             case "transfer_iol":
                 $amount = $transaction['amount'];
 
