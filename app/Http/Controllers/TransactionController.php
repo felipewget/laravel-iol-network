@@ -64,7 +64,7 @@ class TransactionController extends Controller
 
         if (!$request->validated()) abort(403);
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         $currentBalance = $this->blockRepository->getBalance($inputs['sender']);
         if (!$this->transactionRepository->hasBalance($currentBalance['total'], $inputs['amount'], $inputs['tip'])) return abort(403, 'NO BALANCE');
@@ -133,7 +133,7 @@ class TransactionController extends Controller
 
         if (!$request->validated()) abort(403, 'INVALID PARAMS');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         $domainOwner = $this->blockRepository->getLastDomainOwner($inputs['domain'] . "." . $inputs['extension']);
 
@@ -168,7 +168,7 @@ class TransactionController extends Controller
 
         if (!$request->validated()) abort(403, 'INVALID PARAMS');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         $domainOwner = $this->blockRepository->getLastDomainOwner($inputs['domain'] . "." . $inputs['extension']);
         if (!$domainOwner) return abort(404, 'DOMAIN NOT FOUND');
@@ -200,7 +200,7 @@ class TransactionController extends Controller
 
         $signature = $request->get('signature');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         if (!$this->validationRepository->isValidJson($inputs['data'])) return abort(403, 'DATA CONTENT NEEDS TO BE JSON');
 
@@ -227,7 +227,7 @@ class TransactionController extends Controller
 
         $signature = $request->get('signature');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         if (!$this->validationRepository->isValidJson($inputs['data'])) return abort(403, 'DATA CONTENT NEEDS TO BE JSON');
 
@@ -287,7 +287,7 @@ class TransactionController extends Controller
 
         $signature = $request->get('signature');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         if (!$this->validationRepository->isValidJson($inputs['fields'])) return abort(403, 'FIELDS NEEDS TO BE JSON');
 
@@ -320,7 +320,7 @@ class TransactionController extends Controller
 
         $signature = $request->get('signature');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         $transaction = $this->blockRepository->getProductByUid($inputs['transaction_id']);
 
@@ -358,7 +358,7 @@ class TransactionController extends Controller
 
         $signature = $request->get('signature');
 
-        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403);
+        if (!$this->validationRepository->verifySignature($publicKey, json_encode($inputs), $signature)) abort(403, 'INVALID SIGNATURE');
 
         if (!$this->validationRepository->isValidJson($inputs['fields'])) return abort(403, 'FIELDS NEEDS TO BE JSON');
         if (gettype(json_decode($inputs['fields'])) != "object") return abort(403, 'FIELDS SHOULD BE OBJECT');
@@ -374,8 +374,8 @@ class TransactionController extends Controller
         $objInputTransactions = $inputs + ['price' => $transaction->transaction['price'], 'receiver' => $transaction->transaction['sender']];
 
         $summaries = [
-            "sender" => (new PublicKey($publicKey))->encrypt($inputs['fields']),
-            "receiver" => (new PublicKey(base64_decode($objInputTransactions['receiver'])))->encrypt($inputs['fields']),
+            "sender" => base64_encode((new PublicKey($publicKey))->encrypt($inputs['fields'])),
+            "receiver" => base64_encode((new PublicKey(base64_decode($objInputTransactions['receiver'])))->encrypt($inputs['fields'])),
         ];
 
         $currentBalance = $this->blockRepository->getBalance($inputs['sender']);
