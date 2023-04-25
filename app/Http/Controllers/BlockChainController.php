@@ -25,7 +25,7 @@ class BlockChainController extends Controller
     public function initializeBlockhain()
     {
         if (!Block::first()) {
-            $transaction = $this->transactionRepository->createAward("felipeWallet", 15000000, "initial amount to manage IOL network");
+            $transaction = $this->transactionRepository->createAward("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R05BRENCaVFLQmdRQ3JUNjJ1cFNEWURSOE44YjdCOFQvR3dZSWMNCkdqQkovc2J5YzVHZi9GWkFVUHFEcVc3djB1Z1dIbmFnSkttSUdzMk1samsvMTV0ZjlzMXlUVXoyT01iMzFpb3YNCk9lN05mblJjS1FsRVovaHFBelIvTDc4ck04d1NMWUY0b3lXSDc4NVZIeVpaRGl3T2pOQmRZN2J0QW00YmpqRk4NCm54WCs4SUVOdHRrN3JWRjNJd0lEQVFBQg0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tDQo=", 1500000000, "initial amount to manage IOL network");
 
             $this->blockRepository->createBlock(18032023, "welcome to iol network", [$transaction]);
         }

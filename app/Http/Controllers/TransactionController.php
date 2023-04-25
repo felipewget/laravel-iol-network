@@ -51,6 +51,13 @@ class TransactionController extends Controller
 
         $inputs = $request->only('sender', 'receiver', 'amount', 'tip', 'observation', 'timestamp');
 
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
+
         $publicKey = base64_decode($inputs['sender']);
 
         $signature = $request->get('signature');
@@ -70,6 +77,13 @@ class TransactionController extends Controller
     public function createDomain(CreateUpdateDomainRequest $request)
     {
         $inputs = $request->only(['sender', 'domain', 'extension', 'server_addresses', 'amount', 'tip', 'observation', 'timestamp']);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
@@ -106,6 +120,13 @@ class TransactionController extends Controller
 
         $inputs = $request->only(['sender', 'domain', 'extension', 'server_addresses', 'tip', 'observation', 'timestamp']);
 
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
+
         $publicKey = base64_decode($inputs['sender']);
 
         $signature = $request->get('signature');
@@ -134,6 +155,13 @@ class TransactionController extends Controller
     {
         $inputs = $request->only(['sender', 'receiver', 'domain', 'extension', 'tip', 'observation', 'timestamp']);
 
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
+
         $publicKey = base64_decode($inputs['sender']);
 
         $signature = $request->get('signature');
@@ -161,6 +189,13 @@ class TransactionController extends Controller
     {
         $inputs = $request->only(['sender', 'data', 'tip', 'observation', 'timestamp']);
 
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
+
         $publicKey = base64_decode($inputs['sender']);
 
         $signature = $request->get('signature');
@@ -180,6 +215,13 @@ class TransactionController extends Controller
     public function updateData(UpdateDataRequest $request)
     {
         $inputs = $request->only(['sender', 'data_id', 'data', 'tip', 'observation', 'timestamp']);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
@@ -205,6 +247,13 @@ class TransactionController extends Controller
     {
         $inputs = $request->only(['sender', 'data_id', 'receiver', 'tip', 'observation', 'timestamp']);
 
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
+
         $publicKey = base64_decode($inputs['sender']);
 
         $signature = $request->get('signature');
@@ -226,6 +275,13 @@ class TransactionController extends Controller
     public function createProduct(CreateProductRequest $request)
     {
         $inputs = $request->only(['sender', 'data_id', 'tip', 'type', 'observation', 'fields', 'stock', 'timestamp', 'price']);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
@@ -252,6 +308,13 @@ class TransactionController extends Controller
     public function removeProduct(DeleteProductRequest $request)
     {
         $inputs = $request->only(['sender', 'transaction_id', 'tip', 'observation', 'timestamp']);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
@@ -283,6 +346,13 @@ class TransactionController extends Controller
             'fields',
             'timestamp'
         ]);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
@@ -319,6 +389,13 @@ class TransactionController extends Controller
     public function createAlias(CreateAliasRequest $request)
     {
         $inputs = $request->only(["sender", "alias", "tip", "timestamp"]);
+
+        if (strlen($inputs['sender']) < 50) {
+            $alias = $this->blockRepository->getAliasByAccountAddress($inputs['sender']);
+            if ($alias != null) {
+                $inputs['sender'] = $alias;
+            }
+        }
 
         $publicKey = base64_decode($inputs['sender']);
 
